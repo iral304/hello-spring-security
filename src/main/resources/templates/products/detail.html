@@ -13,6 +13,10 @@
         .price-badge { font-size: 1.8rem; font-weight: 800; color: #e94560; }
     </style>
 </head>
+<footer class="text-center py-3 mt-4 border-top text-muted small">
+    <p th:text="${'실습 수행 일시: ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 HH:mm:ss')}"></p>
+    <p>학번: 2071356 &nbsp;|&nbsp; 성명: 송정은</p>
+</footer>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark mb-4">
