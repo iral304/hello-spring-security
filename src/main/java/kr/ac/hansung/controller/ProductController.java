@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import kr.ac.hansung.entity.Product;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/products")
@@ -62,5 +63,26 @@ public class ProductController {
     public String delete(@PathVariable Long id) {
         productService.deleteById(id);
         return "redirect:/products";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+        Product product = productService.findById(id);
+        ProductDto dto = new ProductDto();
+        dto.setName(product.getName());
+        dto.setPrice(product.getPrice());
+        dto.setDescription(product.getDescription());
+        dto.setStock(product.getStock());
+        model.addAttribute("productDto", dto);
+        model.addAttribute("productId", id);
+        return "products/edit";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String edit(@PathVariable Long id, @ModelAttribute ProductDto dto,
+                       RedirectAttributes redirectAttributes) {
+        productService.updateProduct(id, dto);
+        redirectAttributes.addFlashAttribute("message", "상품이 수정되었습니다.");
+        return "redirect:/products/" + id;
     }
 }
